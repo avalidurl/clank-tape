@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CLANK TAPE · Clanker Trader Analytics Board</title>
+  <meta name="description" content="Clank Tape: ASCII terminal analytics board for Clanker launches on Base — Daily Tape, Fee Reality Card, Creator PnL Radar, and Launch Cohort Board." />
+  <meta property="og:title" content="CLANK TAPE · Clanker Trader Analytics Board" />
+  <meta property="og:description" content="Continuous ASCII tape for Clanker deploys, fee/tax reality in bps, creator launch clustering, and UTC launch cohorts on Base." />
+  <meta name="theme-color" content="#08090a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <!-- Continuous Ticker Ribbon -->
+  <div class="tape-ribbon" role="region" aria-label="Trending Clanker ticker tape">
+    <span class="tape-badge">CLANK TAPE // BASE·8453</span>
+    <div class="marquee-viewport">
+      <div class="marquee-track" id="marquee-track"><span class="tick-item"><span class="tick-sym">$CLANKER</span> <span class="tick-dn">▼-11.6%</span> <span class="c-dim">MC:$15.94M V24:$2.81M</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$Reboot</span> <span class="tick-dn">▼-56.7%</span> <span class="c-dim">MC:$285.1K V24:$332.7K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$BOOTR</span> <span class="tick-dn">▼-18.4%</span> <span class="c-dim">MC:$107.5K V24:$283.5K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$DRB</span> <span class="tick-dn">▼-9.1%</span> <span class="c-dim">MC:$10.31M V24:$71.0K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$XTO</span> <span class="tick-up">▲+129.8%</span> <span class="c-dim">MC:$472.6K V24:$84.5K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$AORP</span> <span class="tick-up">▲+63.9%</span> <span class="c-dim">MC:$336.3K V24:$55.7K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$WSOS</span> <span class="tick-up">▲+58.3%</span> <span class="c-dim">MC:$324.8K V24:$53.1K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$USOS</span> <span class="tick-up">▲+47.6%</span> <span class="c-dim">MC:$302.6K V24:$49.2K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$CLANKDEXER</span> <span class="tick-up">▲+1018.0%</span> <span class="c-dim">MC:$41.0K V24:$158.4K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$FAIR</span> <span class="tick-dn">▼-9.0%</span> <span class="c-dim">MC:$409.0K V24:$32.5K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$boar</span> <span class="tick-dn">▼-11.8%</span> <span class="c-dim">MC:$332.0K V24:$24.2K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$BNKR</span> <span class="tick-dn">▼-0.8%</span> <span class="c-dim">MC:$26.46M V24:$73.1K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$0xZAPS</span> <span class="tick-dn">▼-7.4%</span> <span class="c-dim">MC:$580.3K V24:$20.2K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$ClawBank</span> <span class="tick-dn">▼-7.7%</span> <span class="c-dim">MC:$772.0K V24:$10.9K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$noice</span> <span class="tick-dn">▼-4.8%</span> <span class="c-dim">MC:$898.1K V24:$14.2K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$BAES</span> <span class="tick-dn">▼-7.8%</span> <span class="c-dim">MC:$139.3K V24:$4.9K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$CLANKER</span> <span class="tick-dn">▼-11.6%</span> <span class="c-dim">MC:$15.94M V24:$2.81M</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$Reboot</span> <span class="tick-dn">▼-56.7%</span> <span class="c-dim">MC:$285.1K V24:$332.7K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$BOOTR</span> <span class="tick-dn">▼-18.4%</span> <span class="c-dim">MC:$107.5K V24:$283.5K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$DRB</span> <span class="tick-dn">▼-9.1%</span> <span class="c-dim">MC:$10.31M V24:$71.0K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$XTO</span> <span class="tick-up">▲+129.8%</span> <span class="c-dim">MC:$472.6K V24:$84.5K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$AORP</span> <span class="tick-up">▲+63.9%</span> <span class="c-dim">MC:$336.3K V24:$55.7K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$WSOS</span> <span class="tick-up">▲+58.3%</span> <span class="c-dim">MC:$324.8K V24:$53.1K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$USOS</span> <span class="tick-up">▲+47.6%</span> <span class="c-dim">MC:$302.6K V24:$49.2K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$CLANKDEXER</span> <span class="tick-up">▲+1018.0%</span> <span class="c-dim">MC:$41.0K V24:$158.4K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$FAIR</span> <span class="tick-dn">▼-9.0%</span> <span class="c-dim">MC:$409.0K V24:$32.5K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$boar</span> <span class="tick-dn">▼-11.8%</span> <span class="c-dim">MC:$332.0K V24:$24.2K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$BNKR</span> <span class="tick-dn">▼-0.8%</span> <span class="c-dim">MC:$26.46M V24:$73.1K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$0xZAPS</span> <span class="tick-dn">▼-7.4%</span> <span class="c-dim">MC:$580.3K V24:$20.2K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$ClawBank</span> <span class="tick-dn">▼-7.7%</span> <span class="c-dim">MC:$772.0K V24:$10.9K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$noice</span> <span class="tick-dn">▼-4.8%</span> <span class="c-dim">MC:$898.1K V24:$14.2K</span><span class="tick-sep">│</span></span><span class="tick-item"><span class="tick-sym">$BAES</span> <span class="tick-dn">▼-7.8%</span> <span class="c-dim">MC:$139.3K V24:$4.9K</span><span class="tick-sep">│</span></span></div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <header class="masthead" id="top">
+      <div class="masthead-top">
+        <div class="brand-block">
+          <h1 class="brand-title">CLANK TAPE</h1>
+          <span class="brand-sub">clanker trader analytics board · base mainnet (8453)</span>
+        </div>
+        <div class="status-cluster">
+          <span><span class="dot-live"></span>SNAPSHOT: <strong id="snap-ts" class="c-grn">2026-11-05T15:28:57Z</strong></span>
+          <span>RAW: <a href="data/latest.json">data/latest.json</a></span>
+        </div>
+      </div>
+
+      <div class="nav-bar">
+        <nav class="nav-links" aria-label="Board sections">
+          <a href="#tape">[01] tape</a>
+          <span class="sep">/</span>
+          <a href="#fees">[02] fees</a>
+          <span class="sep">/</span>
+          <a href="#creators">[03] creators</a>
+          <span class="sep">/</span>
+          <a href="#cohorts">[04] cohorts</a>
+          <span class="sep">/</span>
+          <a href="#roadmap">[05] roadmap</a>
+        </nav>
+        <div class="refresh-controls">
+          <span id="refresh-note">static build · auto-updated via gh actions</span>
+          <button type="button" class="btn-term" id="btn-check-json" title="Re-read committed data/latest.json">[check snapshot]</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dense Terminal KPI Strip -->
+    <section class="kpi-strip" aria-label="Snapshot summary metrics">
+      <div class="kpi-cell">
+        <span class="kpi-label">Total Clanker Indexed</span>
+        <span class="kpi-val" id="kpi-total">730,394</span>
+        <span class="kpi-sub">tokensDeployed via API</span>
+      </div>
+      <div class="kpi-cell">
+        <span class="kpi-label">Trending 24h Volume</span>
+        <span class="kpi-val" id="kpi-tvol">$4.12M</span>
+        <span class="kpi-sub">top 20 trending pools</span>
+      </div>
+      <div class="kpi-cell">
+        <span class="kpi-label">Trending Market Cap</span>
+        <span class="kpi-val amber" id="kpi-tmcap">$58.10M</span>
+        <span class="kpi-sub">combined FDV / mcap</span>
+      </div>
+      <div class="kpi-cell">
+        <span class="kpi-label">Recent Tape Sample</span>
+        <span class="kpi-val" id="kpi-sample">80 launches</span>
+        <span class="kpi-sub">44 v4_lp · 36 tax_v0</span>
+      </div>
+      <div class="kpi-cell">
+        <span class="kpi-label">Active Deployers</span>
+        <span class="kpi-val amber" id="kpi-creators">41 admins</span>
+        <span class="kpi-sub">8 repeat launchers in window</span>
+      </div>
+    </section>
+
+    <!-- 01: DAILY TAPE -->
+    <section id="tape" class="panel">
+      <div class="panel-head">
+        <h2 class="panel-title"><span class="idx">01 //</span>DAILY TAPE — TRENDING &amp; FRESH DEPLOYS</h2>
+        <span class="tag tag-live">LIVE · STATIC SNAPSHOT</span>
+      </div>
+      <p class="panel-note">
+        Two-track tape baked from Clanker public endpoints: top 24h volume movers (linear volume bars, log10 market-cap bars) followed by newest Base deployments paginated by cursor.
+      </p>
+      <div class="sub-head">A · TRENDING RUNNERS (24H VOLUME &amp; MCAP DEPTH)</div>
+      <pre class="ascii-wrap" aria-label="Trending Clanker tokens table">┌────┬─────────────┬──────────┬──────────────┬──────────┬──────────────┬──────────┬────────┬────────┬─────────────┐
+│ <span class="c-dim"> #</span> │ <span class="c-dim">SYMBOL     </span> │ <span class="c-dim">    MCAP</span> │ <span class="c-dim">MCAP (LOG10)</span> │ <span class="c-dim"> 24H VOL</span> │ <span class="c-dim">VOL BAR     </span> │ <span class="c-dim">    24H%</span> │ <span class="c-dim"> TX24H</span> │ <span class="c-dim">   AGE</span> │ <span class="c-dim">CA (BASE)  </span> │
+├────┼─────────────┼──────────┼──────────────┼──────────┼──────────────┼──────────┼────────┼────────┼─────────────┤
+│ <span class="c-dim">01</span> │ <span class="c-bld">CLANKER    </span> │  $15.94M │ <span class="c-amb">████████████</span> │   $2.81M │ <span class="c-grn">████████████</span> │ <span class="c-red">  -11.6%</span> │  9,722 │ <span class="c-dim">  726d</span> │ <a href="https://www.clanker.world/clanker/0x1bc0c42215582d5A085795f4baDbaC3ff36d1Bcb" target="_blank" rel="noopener">0x1bc0…1Bcb</a> │
+│ <span class="c-dim">02</span> │ <span class="c-bld">Reboot     </span> │  $285.1K │ <span class="c-amb">█████████░░░</span> │  $332.7K │ <span class="c-grn">█░░░░░░░░░░░</span> │ <span class="c-red">  -56.7%</span> │  3,054 │ <span class="c-dim">    1d</span> │ <a href="https://www.clanker.world/clanker/0x6F18277E5566090Ad8Ab35e401ce9155739BFb07" target="_blank" rel="noopener">0x6F18…Fb07</a> │
+│ <span class="c-dim">03</span> │ <span class="c-bld">BOOTR      </span> │  $107.5K │ <span class="c-amb">████████░░░░</span> │  $283.5K │ <span class="c-grn">█░░░░░░░░░░░</span> │ <span class="c-red">  -18.4%</span> │  6,304 │ <span class="c-dim">    1d</span> │ <a href="https://www.clanker.world/clanker/0xB1C3a6ac90E324c4072aD4B2a71c5d9382F9565c" target="_blank" rel="noopener">0xB1C3…565c</a> │
+│ <span class="c-dim">04</span> │ <span class="c-bld">DRB        </span> │  $10.31M │ <span class="c-amb">███████████░</span> │   $71.0K │ <span class="c-grn">█░░░░░░░░░░░</span> │ <span class="c-red">   -9.1%</span> │  1,052 │ <span class="c-dim">  608d</span> │ <a href="https://www.clanker.world/clanker/0x3ec2156D4c0A9CBdAB4a016633b7BcF6a8d68Ea2" target="_blank" rel="noopener">0x3ec2…8Ea2</a> │
+│ <span class="c-dim">05</span> │ <span class="c-bld">XTO        </span> │  $472.6K │ <span class="c-amb">█████████░░░</span> │   $84.5K │ <span class="c-grn">█░░░░░░░░░░░</span> │ <span class="c-grn"> +129.8%</span> │  8,744 │ <span class="c-dim">22h38m</span> │ <a href="https://www.clanker.world/clanker/0xE4176F02127B8C929Ac0ccD66e24663a48aE78eA" target="_blank" rel="noopener">0xE417…78eA</a> │
+│ <span class="c-dim">06</span> │ <span class="c-bld">AORP       </span> │  $336.3K │ <span class="c-amb">█████████░░░</span> │   $55.7K │ <span class="c-grn">█░░░░░░░░░░░</span> │ <span class="c-grn">  +63.9%</span> │  8,361 │ <span class="c-dim">22h11m</span> │ <a href="https://www.clanker.world/clanker/0xcDb4F0511E6D4709ca18a6D2632242De7ac32078" target="_blank" rel="noopener">0xcDb4…2078</a> │
+│ <span class="c-dim">07</span> │ <span class="c-bld">WSOS       </span> │  $324.8K │ <span class="c-amb">█████████░░░</span> │   $53.1K │ <span class="c-grn">█░░░░░░░░░░░</span> │ <span class="c-grn">  +58.3%</span> │  8,165 │ <span class="c-dim">21h59m</span> │ <a href="https://www.clanker.world/clanker/0x09b5cb12fAdC6DfA39cc2aa569B05dd3C9b6eA9e" target="_blank" rel="noopener">0x09b5…eA9e</a> │
+│ <span class="c-dim">08</span> │ <span class="c-bld">USOS       </span> │  $302.6K │ <span class="c-amb">█████████░░░</span> │   $49.2K │ <span class="c-grn">█░░░░░░░░░░░</span> │ <span class="c-grn">  +47.6%</span> │  7,598 │ <span class="c-dim">21h23m</span> │ <a href="https://www.clanker.world/clanker/0x5DF82b9cc7DdD86cf9C020B50fa3D25453a84a7C" target="_blank" rel="noopener">0x5DF8…4a7C</a> │
+│ <span class="c-dim">09</span> │ <span class="c-bld">CLANKDEXER </span> │   $41.0K │ <span class="c-amb">███████░░░░░</span> │  $158.4K │ <span class="c-grn">█░░░░░░░░░░░</span> │ <span class="c-grn">+1018.0%</span> │  3,895 │ <span class="c-dim">17h54m</span> │ <a href="https://www.clanker.world/clanker/0x134BA967D5973baaFCD5aBBf459B91efF34e0B07" target="_blank" rel="noopener">0x134B…0B07</a> │
+│ <span class="c-dim">10</span> │ <span class="c-bld">FAIR       </span> │  $409.0K │ <span class="c-amb">█████████░░░</span> │   $32.5K │ <span class="c-grn">█░░░░░░░░░░░</span> │ <span class="c-red">   -9.0%</span> │    231 │ <span class="c-dim">  496d</span> │ <a href="https://www.clanker.world/clanker/0x7D928816CC9c462DD7adef911De41535E444CB07" target="_blank" rel="noopener">0x7D92…CB07</a> │
+│ <span class="c-dim">11</span> │ <span class="c-bld">boar       </span> │  $332.0K │ <span class="c-amb">█████████░░░</span> │   $24.2K │ <span class="c-grn">█░░░░░░░░░░░</span> │ <span class="c-red">  -11.8%</span> │    114 │ <span class="c-dim">   40d</span> │ <a href="https://www.clanker.world/clanker/0x0cbf291Ba052174879d90bf781dF1A5F2BC5Bb07" target="_blank" rel="noopener">0x0cbf…Bb07</a> │
+│ <span class="c-dim">12</span> │ <span class="c-bld">BNKR       </span> │  $26.46M │ <span class="c-amb">████████████</span> │   $73.1K │ <span class="c-grn">█░░░░░░░░░░░</span> │ <span class="c-red">   -0.8%</span> │    517 │ <span class="c-dim">  702d</span> │ <a href="https://www.clanker.world/clanker/0x22aF33FE49fD1Fa80c7149773dDe5890D3c76F3b" target="_blank" rel="noopener">0x22aF…6F3b</a> │
+│ <span class="c-dim">13</span> │ <span class="c-bld">0xZAPS     </span> │  $580.3K │ <span class="c-amb">█████████░░░</span> │   $20.2K │ <span class="c-grn">█░░░░░░░░░░░</span> │ <span class="c-red">   -7.4%</span> │    211 │ <span class="c-dim">  107d</span> │ —           │
+│ <span class="c-dim">14</span> │ <span class="c-bld">ClawBank   </span> │  $772.0K │ <span class="c-amb">██████████░░</span> │   $10.9K │ <span class="c-grn">█░░░░░░░░░░░</span> │ <span class="c-red">   -7.7%</span> │    994 │ <span class="c-dim">  268d</span> │ <a href="https://www.clanker.world/clanker/0x16332535E2c27da578bC2e82bEb09Ce9d3C8EB07" target="_blank" rel="noopener">0x1633…EB07</a> │
+│ <span class="c-dim">15</span> │ <span class="c-bld">noice      </span> │  $898.1K │ <span class="c-amb">██████████░░</span> │   $14.2K │ <span class="c-grn">█░░░░░░░░░░░</span> │ <span class="c-red">   -4.8%</span> │    265 │ <span class="c-dim">  532d</span> │ <a href="https://www.clanker.world/clanker/0x9Cb41FD9dC6891BAe8187029461bfAADF6CC0C69" target="_blank" rel="noopener">0x9Cb4…0C69</a> │
+└────┴─────────────┴──────────┴──────────────┴──────────┴──────────────┴──────────┴────────┴────────┴─────────────┘</pre>
+      <div class="sub-head">B · RECENT DEPLOY WIRE (LATEST PAGINATED LAUNCHES, UTC)</div>
+      <pre class="ascii-wrap" aria-label="Recent Clanker launches table">┌──────────┬────────┬──────────────┬──────────┬─────────────┬──────────┬──────────┬────────┬─────────────┬─────────────┐
+│ <span class="c-dim">UTC TIME</span> │ <span class="c-dim">   AGE</span> │ <span class="c-dim">SYMBOL      </span> │ <span class="c-dim">REGIME  </span> │ <span class="c-dim">   BUY/SELL</span> │ <span class="c-dim">    MCAP</span> │ <span class="c-dim">DEPTH   </span> │ <span class="c-dim">  V24H</span> │ <span class="c-dim">CREATOR    </span> │ <span class="c-dim">CA         </span> │
+├──────────┼────────┼──────────────┼──────────┼─────────────┼──────────┼──────────┼────────┼─────────────┼─────────────┤
+│ <span class="c-dim">15:25:51</span> │ <span class="c-dim">    3m</span> │ <span class="c-bld">clankmaxxers</span> │ <span class="c-grn">v4_lp   </span> │ <span class="c-amb">  900/900bp</span> │      $10 │ <span class="c-grn">██░░░░░░</span> │ <span class="c-grn">    $1</span> │ <a href="https://basescan.org/address/0xBe2d47420dcD8119e4096c087A6C149A62626e75" target="_blank" rel="noopener">0xBe2d…6e75</a> │ <a href="https://www.clanker.world/clanker/0x368d67d86ba289D87852503C9B06D21441A8e373" target="_blank" rel="noopener">0x368d…e373</a> │
+│ <span class="c-dim">15:21:39</span> │ <span class="c-dim">    7m</span> │ <span class="c-bld">Claude      </span> │ <span class="c-grn">v4_lp   </span> │   100/100bp │       $0 │ <span class="c-grn">░░░░░░░░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0xA83b4fCA82265AE81f6254c9e410A13418f25f92" target="_blank" rel="noopener">0xA83b…5f92</a> │ <a href="https://www.clanker.world/clanker/0x4Ff194cEC7473fdfde6c4Bf363908d1517477B07" target="_blank" rel="noopener">0x4Ff1…7B07</a> │
+│ <span class="c-dim">15:21:23</span> │ <span class="c-dim">    7m</span> │ <span class="c-bld">Claude      </span> │ <span class="c-grn">v4_lp   </span> │   100/100bp │       $0 │ <span class="c-grn">░░░░░░░░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0xA83b4fCA82265AE81f6254c9e410A13418f25f92" target="_blank" rel="noopener">0xA83b…5f92</a> │ <a href="https://www.clanker.world/clanker/0x9B15C6614D97924F6420Fa0E96285cc1044b6B07" target="_blank" rel="noopener">0x9B15…6B07</a> │
+│ <span class="c-dim">15:21:07</span> │ <span class="c-dim">    7m</span> │ <span class="c-bld">Claude      </span> │ <span class="c-grn">v4_lp   </span> │   100/100bp │       $0 │ <span class="c-grn">░░░░░░░░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0xA83b4fCA82265AE81f6254c9e410A13418f25f92" target="_blank" rel="noopener">0xA83b…5f92</a> │ <a href="https://www.clanker.world/clanker/0x1ae7BD21B14FC74C3307f5728fF98A506Db1Ab07" target="_blank" rel="noopener">0x1ae7…Ab07</a> │
+│ <span class="c-dim">15:20:51</span> │ <span class="c-dim">    8m</span> │ <span class="c-bld">Claude      </span> │ <span class="c-grn">v4_lp   </span> │   100/100bp │       $0 │ <span class="c-grn">░░░░░░░░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0xA83b4fCA82265AE81f6254c9e410A13418f25f92" target="_blank" rel="noopener">0xA83b…5f92</a> │ <a href="https://www.clanker.world/clanker/0xa4F05Bf80e254766d011Ed765714896A7Be55b07" target="_blank" rel="noopener">0xa4F0…5b07</a> │
+│ <span class="c-dim">15:20:01</span> │ <span class="c-dim">    8m</span> │ <span class="c-bld">Claude      </span> │ <span class="c-grn">v4_lp   </span> │   100/100bp │       $0 │ <span class="c-grn">░░░░░░░░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0xA83b4fCA82265AE81f6254c9e410A13418f25f92" target="_blank" rel="noopener">0xA83b…5f92</a> │ <a href="https://www.clanker.world/clanker/0x3db6f142F3c1957C4277aa2785CEa0E0AeF2dB07" target="_blank" rel="noopener">0x3db6…dB07</a> │
+│ <span class="c-dim">15:17:13</span> │ <span class="c-dim">   11m</span> │ <span class="c-bld">Anthropic   </span> │ <span class="c-grn">v4_lp   </span> │   100/100bp │       $0 │ <span class="c-grn">░░░░░░░░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0xA83b4fCA82265AE81f6254c9e410A13418f25f92" target="_blank" rel="noopener">0xA83b…5f92</a> │ <a href="https://www.clanker.world/clanker/0x26661460bb5B0D152d4c921CDe9b22cbB4e4dB07" target="_blank" rel="noopener">0x2666…dB07</a> │
+│ <span class="c-dim">15:16:58</span> │ <span class="c-dim">   11m</span> │ <span class="c-bld">Anthropic   </span> │ <span class="c-grn">v4_lp   </span> │   100/100bp │       $0 │ <span class="c-grn">░░░░░░░░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0xA83b4fCA82265AE81f6254c9e410A13418f25f92" target="_blank" rel="noopener">0xA83b…5f92</a> │ <a href="https://www.clanker.world/clanker/0xaeB7d9ea1310676F640496142afE254f404e8B07" target="_blank" rel="noopener">0xaeB7…8B07</a> │
+│ <span class="c-dim">15:16:42</span> │ <span class="c-dim">   12m</span> │ <span class="c-bld">Anthropic   </span> │ <span class="c-grn">v4_lp   </span> │   100/100bp │       $0 │ <span class="c-grn">░░░░░░░░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0xA83b4fCA82265AE81f6254c9e410A13418f25f92" target="_blank" rel="noopener">0xA83b…5f92</a> │ <a href="https://www.clanker.world/clanker/0xD973546a8Ea79736f1551e5bAA3Baed307213b07" target="_blank" rel="noopener">0xD973…3b07</a> │
+│ <span class="c-dim">15:16:25</span> │ <span class="c-dim">   12m</span> │ <span class="c-bld">Anthropic   </span> │ <span class="c-grn">v4_lp   </span> │   100/100bp │       $0 │ <span class="c-grn">░░░░░░░░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0xA83b4fCA82265AE81f6254c9e410A13418f25f92" target="_blank" rel="noopener">0xA83b…5f92</a> │ <a href="https://www.clanker.world/clanker/0x4CF2b1bA1E453A20795371b9B75D2b337c002b07" target="_blank" rel="noopener">0x4CF2…2b07</a> │
+│ <span class="c-dim">15:14:25</span> │ <span class="c-dim">   14m</span> │ <span class="c-bld">Clankmaker  </span> │ <span class="c-amb">tax_v0  </span> │   100/250bp │       $2 │ <span class="c-grn">█░░░░░░░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0x75fb512a328191ef0832D354C52892457A10233e" target="_blank" rel="noopener">0x75fb…233e</a> │ <a href="https://www.clanker.world/clanker/0x71130a8432b7b98521Ef6a1ff215431Ec005CCcc" target="_blank" rel="noopener">0x7113…CCcc</a> │
+│ <span class="c-dim">15:14:23</span> │ <span class="c-dim">   14m</span> │ <span class="c-bld">Anthropic   </span> │ <span class="c-grn">v4_lp   </span> │   100/100bp │       $0 │ <span class="c-grn">░░░░░░░░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0xA83b4fCA82265AE81f6254c9e410A13418f25f92" target="_blank" rel="noopener">0xA83b…5f92</a> │ <a href="https://www.clanker.world/clanker/0xD8E856dD3e30502F013536Ce81D391169FDf9B07" target="_blank" rel="noopener">0xD8E8…9B07</a> │
+│ <span class="c-dim">15:11:25</span> │ <span class="c-dim">   17m</span> │ <span class="c-bld">RVYDIR      </span> │ <span class="c-grn">v4_lp   </span> │ <span class="c-amb">  500/500bp</span> │   $22.9K │ <span class="c-grn">████████</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0xFcb095d1A7Fa217DA1614F331cd0DB94566e7281" target="_blank" rel="noopener">0xFcb0…7281</a> │ <a href="https://www.clanker.world/clanker/0xBF2Bf6fd50f9881911003106c8F6E4271ef5172e" target="_blank" rel="noopener">0xBF2B…172e</a> │
+│ <span class="c-dim">15:09:25</span> │ <span class="c-dim">   19m</span> │ <span class="c-bld">MAXBOT      </span> │ <span class="c-amb">tax_v0  </span> │ <span class="c-amb">  500/500bp</span> │    $3.8K │ <span class="c-grn">███████░</span> │ <span class="c-grn">   $13</span> │ <a href="https://basescan.org/address/0xBe2d47420dcD8119e4096c087A6C149A62626e75" target="_blank" rel="noopener">0xBe2d…6e75</a> │ <a href="https://www.clanker.world/clanker/0xc7BBe3aCB2893Cd4bfe4C7Aa65BdDA2761A4CCCC" target="_blank" rel="noopener">0xc7BB…CCCC</a> │
+│ <span class="c-dim">15:07:13</span> │ <span class="c-dim">   21m</span> │ <span class="c-bld">clankmaxxers</span> │ <span class="c-amb">tax_v0  </span> │ <span class="c-amb">  800/900bp</span> │    $4.0K │ <span class="c-grn">███████░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0x1dd3526bAdb4170c73bC0c12eB97F0f1227287D9" target="_blank" rel="noopener">0x1dd3…87D9</a> │ <a href="https://www.clanker.world/clanker/0xCeF83d2841E56D9619fBA4893FF7F4F60A63cCCC" target="_blank" rel="noopener">0xCeF8…cCCC</a> │
+│ <span class="c-dim">15:06:05</span> │ <span class="c-dim">   22m</span> │ <span class="c-bld">clankmaxxers</span> │ <span class="c-amb">tax_v0  </span> │   200/200bp │    $4.0K │ <span class="c-grn">███████░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0x1dd3526bAdb4170c73bC0c12eB97F0f1227287D9" target="_blank" rel="noopener">0x1dd3…87D9</a> │ <a href="https://www.clanker.world/clanker/0xA8e3fb31E59e0a8652Fb5c9BDe6BBEe41bEFCccc" target="_blank" rel="noopener">0xA8e3…Cccc</a> │
+│ <span class="c-dim">15:05:01</span> │ <span class="c-dim">   23m</span> │ <span class="c-bld">clankmaxxers</span> │ <span class="c-amb">tax_v0  </span> │   200/300bp │    $4.0K │ <span class="c-grn">███████░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0x1dd3526bAdb4170c73bC0c12eB97F0f1227287D9" target="_blank" rel="noopener">0x1dd3…87D9</a> │ <a href="https://www.clanker.world/clanker/0x6cB365f743788aE9127978199004EEE3D8D3ccCC" target="_blank" rel="noopener">0x6cB3…ccCC</a> │
+│ <span class="c-dim">15:04:13</span> │ <span class="c-dim">   24m</span> │ <span class="c-bld">StocksClank </span> │ <span class="c-amb">tax_v0  </span> │ <span class="c-amb">  300/300bp</span> │    $4.0K │ <span class="c-grn">███████░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0xDBF206B776AE391863d63b08bbdbAe2120DDd7E5" target="_blank" rel="noopener">0xDBF2…d7E5</a> │ <a href="https://www.clanker.world/clanker/0xa8FdC74c09c3aDb4E8d4C919EbbC861a4f89ccCC" target="_blank" rel="noopener">0xa8Fd…ccCC</a> │
+│ <span class="c-dim">15:03:59</span> │ <span class="c-dim">   24m</span> │ <span class="c-bld">clankmaxxers</span> │ <span class="c-amb">tax_v0  </span> │ <span class="c-amb">  300/300bp</span> │    $4.0K │ <span class="c-grn">███████░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0x1dd3526bAdb4170c73bC0c12eB97F0f1227287D9" target="_blank" rel="noopener">0x1dd3…87D9</a> │ <a href="https://www.clanker.world/clanker/0x2ba87C063d8ea2B292513c573e3ca21C3593CCCc" target="_blank" rel="noopener">0x2ba8…CCCc</a> │
+│ <span class="c-dim">15:03:07</span> │ <span class="c-dim">   25m</span> │ <span class="c-bld">AXIS        </span> │ <span class="c-amb">tax_v0  </span> │   100/100bp │    $4.0K │ <span class="c-grn">███████░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0x16D4e81E840d00F4135f13d3273967B1D4d00478" target="_blank" rel="noopener">0x16D4…0478</a> │ <a href="https://www.clanker.world/clanker/0xdB5A2DAA2341b501DD1F60D90D03E47e30e5ccCc" target="_blank" rel="noopener">0xdB5A…ccCc</a> │
+│ <span class="c-dim">15:01:19</span> │ <span class="c-dim">   27m</span> │ <span class="c-bld">CMonkey     </span> │ <span class="c-amb">tax_v0  </span> │   100/100bp │    $4.0K │ <span class="c-grn">███████░</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0x813b8f0144BD8DbaEcfD1aE3AF28ad4879Ac50f7" target="_blank" rel="noopener">0x813b…50f7</a> │ <a href="https://www.clanker.world/clanker/0x793374115A6Bb83ac67907EdC55Af191A47BCCCC" target="_blank" rel="noopener">0x7933…CCCC</a> │
+│ <span class="c-dim">15:01:15</span> │ <span class="c-dim">   27m</span> │ <span class="c-bld">TOADYIMPCT  </span> │ <span class="c-grn">v4_lp   </span> │   100/100bp │   $23.1K │ <span class="c-grn">████████</span> │ <span class="c-mut">    $0</span> │ <a href="https://basescan.org/address/0x74497Ee00315BF34070Ccdc7Cc5e98e35862e7Db" target="_blank" rel="noopener">0x7449…e7Db</a> │ <a href="https://www.clanker.world/clanker/0x0951B3FeE05CB7Da48E9336d06A56832bE4E1B07" target="_blank" rel="noopener">0x0951…1B07</a> │
+└──────────┴────────┴──────────────┴──────────┴─────────────┴──────────┴──────────┴────────┴─────────────┴─────────────┘</pre>
+    </section>
+
+    <!-- 02: FEE REALITY CARD -->
+    <section id="fees" class="panel">
+      <div class="panel-head">
+        <h2 class="panel-title"><span class="idx">02 //</span>FEE REALITY CARD — TAX &amp; HOOK BPS BREAKDOWN</h2>
+        <span class="tag tag-live">FIRST CUT · LIVE</span>
+      </div>
+      <p class="panel-note">
+        Normalized fee extraction across Clanker contract regimes. <code>tax_v0</code> encodes rates in 10<sup>-4</sup> bps (<code>1,000,000</code> = 100 bps = 1.00%) with explicit creator / burn / integrator allocation shares; <code>v4_lp</code> encodes static or dynamic hook fees in 10<sup>-2</sup> bps (<code>10,000</code> = 100 bps = 1.00%) split across recipient bps slots (including <code>0x…dEaD</code> burn routing).
+      </p>
+      <pre class="ascii-wrap" aria-label="Fee reality summary and per-token bps breakdown">┌─────────────────┬──────────────┬──────────────────┬──────────────────────────────────────────────────────────┐
+│ <span class="c-dim">REGIME (N=80)  </span> │ <span class="c-dim">       SHARE</span> │ <span class="c-dim">DISTRIBUTION    </span> │ <span class="c-dim">MECHANICS &amp; PROTOCOL SKIM                               </span> │
+├─────────────────┼──────────────┼──────────────────┼──────────────────────────────────────────────────────────┤
+│ <span class="c-bld">v4_lp / v4_dyn </span> │   44 (55.0%) │ <span class="c-amb">█████████░░░░░░░</span> │ <span class="c-dim">Uni v4 hook LP fee (10000 raw = 100 bps); ~20% protocol </span> │
+│ <span class="c-bld">tax_v0         </span> │   36 (45.0%) │ <span class="c-amb">███████░░░░░░░░░</span> │ <span class="c-dim">Token buy/sell tax (1000000 raw = 100 bps); 10% protocol</span> │
+│ <span class="c-dim">legacy / proxy </span> │    0 ( 0.0%) │ <span class="c-mut">░░░░░░░░░░░░░░░░</span> │ <span class="c-dim">v3.1 / v3 / proxy pools without v4/tax extension block  </span> │
+└─────────────────┴──────────────┴──────────────────┴──────────────────────────────────────────────────────────┘
+<span class="c-grn">  MEDIAN RATES » tax_v0: 100 bps buy / 100 bps sell  ·  v4_lp: 100 bps clanker/paired  ·  100 bps = 1.00%</span>
+
+┌──────────────┬─────────┬─────────┬──────────┬──────────┬────────┬────────────┬────────┬───────┬─────────────┐
+│ <span class="c-dim">SYMBOL      </span> │ <span class="c-dim">REGIME </span> │ <span class="c-dim">BUY BPS</span> │ <span class="c-dim">SELL BPS</span> │ <span class="c-dim">CREATOR%</span> │ <span class="c-dim"> BURN%</span> │ <span class="c-dim">INTEG/OTH%</span> │ <span class="c-dim">PROTO%</span> │ <span class="c-dim">SNIPE</span> │ <span class="c-dim">CA         </span> │
+├──────────────┼─────────┼─────────┼──────────┼──────────┼────────┼────────────┼────────┼───────┼─────────────┤
+│ <span class="c-bld">EAT         </span> │ <span class="c-grn">v4_dyn </span> │     100 │  100→500 │ <span class="c-grn">    100%</span> │ <span class="c-mut">    0%</span> │ <span class="c-mut">        0%</span> │ <span class="c-dim">   20%</span> │ <span class="c-dim"> 120s</span> │ <a href="https://www.clanker.world/clanker/0x680BC6ed5c7222E2f29bdBc87f8E8f3400D8Ce04" target="_blank" rel="noopener">0x680B…Ce04</a> │
+│ <span class="c-bld">REGENT      </span> │ <span class="c-grn">v4_dyn </span> │     100 │  100→300 │ <span class="c-grn">    100%</span> │ <span class="c-mut">    0%</span> │ <span class="c-mut">        0%</span> │ <span class="c-dim">   20%</span> │ <span class="c-dim"> 120s</span> │ <a href="https://www.clanker.world/clanker/0x6f89bcA4eA5931EdFCB09786267b251DeE752b07" target="_blank" rel="noopener">0x6f89…2b07</a> │
+│ <span class="c-bld">BI          </span> │ <span class="c-amb">tax_v0 </span> │     100 │      100 │      20% │ <span class="c-cyn">   30%</span> │ <span class="c-mut">        0%</span> │ <span class="c-dim">   10%</span> │ <span class="c-dim">  20s</span> │ <a href="https://www.clanker.world/clanker/0x56aa4bB60729861e243E5EbeD6cDA8D3521ecccC" target="_blank" rel="noopener">0x56aa…cccC</a> │
+│ <span class="c-bld">MAXBOT      </span> │ <span class="c-amb">tax_v0 </span> │ <span class="c-amb">    500</span> │ <span class="c-amb">     500</span> │ <span class="c-grn">     95%</span> │ <span class="c-cyn">    5%</span> │ <span class="c-mut">        0%</span> │ <span class="c-dim">   10%</span> │ <span class="c-dim">  20s</span> │ <a href="https://www.clanker.world/clanker/0xc7BBe3aCB2893Cd4bfe4C7Aa65BdDA2761A4CCCC" target="_blank" rel="noopener">0xc7BB…CCCC</a> │
+│ <span class="c-bld">RVYCAN      </span> │ <span class="c-grn">v4_lp  </span> │ <span class="c-amb">    500</span> │ <span class="c-amb">     500</span> │ <span class="c-grn">     90%</span> │ <span class="c-mut">    0%</span> │ <span class="c-amb">       10%</span> │ <span class="c-dim">   20%</span> │ <span class="c-dim">  15s</span> │ <a href="https://www.clanker.world/clanker/0xe17DEA16C233482A3058f1501946C4FDfABb12Ab" target="_blank" rel="noopener">0xe17D…12Ab</a> │
+│ <span class="c-bld">RVYCAN2     </span> │ <span class="c-grn">v4_lp  </span> │ <span class="c-amb">    500</span> │ <span class="c-amb">     500</span> │ <span class="c-grn">     90%</span> │ <span class="c-mut">    0%</span> │ <span class="c-amb">       10%</span> │ <span class="c-dim">   20%</span> │ <span class="c-dim">  15s</span> │ <a href="https://www.clanker.world/clanker/0xA7B97d7CbBF60F6411f440263d543927cC5659BC" target="_blank" rel="noopener">0xA7B9…59BC</a> │
+│ <span class="c-bld">Clankercat  </span> │ <span class="c-amb">tax_v0 </span> │ <span class="c-amb">   1000</span> │ <span class="c-amb">    1000</span> │ <span class="c-grn">     99%</span> │ <span class="c-cyn">    1%</span> │ <span class="c-mut">        0%</span> │ <span class="c-dim">   10%</span> │ <span class="c-dim">  20s</span> │ <a href="https://www.clanker.world/clanker/0x2f2320BADBb5864E4e873E30A4812f4322d4cCCC" target="_blank" rel="noopener">0x2f23…cCCC</a> │
+│ <span class="c-bld">Baseinu     </span> │ <span class="c-amb">tax_v0 </span> │ <span class="c-amb">    300</span> │ <span class="c-amb">     300</span> │ <span class="c-grn">     95%</span> │ <span class="c-cyn">    3%</span> │ <span class="c-mut">        0%</span> │ <span class="c-dim">   10%</span> │ <span class="c-dim">  20s</span> │ <a href="https://www.clanker.world/clanker/0x8b9ce0D8359fDf66105cf5Ddc4B695d33Eb2cCcc" target="_blank" rel="noopener">0x8b9c…cCcc</a> │
+│ <span class="c-bld">RVYDIR      </span> │ <span class="c-grn">v4_lp  </span> │ <span class="c-amb">    500</span> │ <span class="c-amb">     500</span> │ <span class="c-grn">     90%</span> │ <span class="c-mut">    0%</span> │ <span class="c-amb">       10%</span> │ <span class="c-dim">   20%</span> │ <span class="c-dim">  15s</span> │ <a href="https://www.clanker.world/clanker/0xBF2Bf6fd50f9881911003106c8F6E4271ef5172e" target="_blank" rel="noopener">0xBF2B…172e</a> │
+│ <span class="c-bld">CAT         </span> │ <span class="c-grn">v4_lp  </span> │     100 │      100 │ <span class="c-grn">     95%</span> │ <span class="c-mut">    0%</span> │ <span class="c-amb">        5%</span> │ <span class="c-dim">   20%</span> │ <span class="c-dim">  15s</span> │ <a href="https://www.clanker.world/clanker/0xeb000D1057A049a4bbaBB2e5Bdf3Da0c8Af43AB2" target="_blank" rel="noopener">0xeb00…3AB2</a> │
+│ <span class="c-bld">BAC         </span> │ <span class="c-grn">v4_lp  </span> │     100 │      100 │ <span class="c-grn">     95%</span> │ <span class="c-mut">    0%</span> │ <span class="c-amb">        5%</span> │ <span class="c-dim">   20%</span> │ <span class="c-dim">  15s</span> │ <a href="https://www.clanker.world/clanker/0xCB248aFC0215D9F8f38aCF0931a69F404b287832" target="_blank" rel="noopener">0xCB24…7832</a> │
+│ <span class="c-bld">0xZAPS      </span> │ <span class="c-grn">v4_lp  </span> │     100 │      100 │ <span class="c-grn">    100%</span> │ <span class="c-mut">    0%</span> │ <span class="c-mut">        0%</span> │ <span class="c-dim">   20%</span> │ <span class="c-dim">  15s</span> │ <a href="https://www.clanker.world/clanker/0xDd90bFa4adC7F4401E611AbaC692D939F9F4CB07" target="_blank" rel="noopener">0xDd90…CB07</a> │
+│ <span class="c-bld">monkeys     </span> │ <span class="c-amb">tax_v0 </span> │ <span class="c-amb">    500</span> │ <span class="c-amb">     500</span> │ <span class="c-grn">    100%</span> │ <span class="c-mut">    0%</span> │ <span class="c-mut">        0%</span> │ <span class="c-dim">   10%</span> │ <span class="c-dim">  20s</span> │ <a href="https://www.clanker.world/clanker/0x5bb9AEa996Ec6d522E97D225a7836EE9F62eCcCC" target="_blank" rel="noopener">0x5bb9…CcCC</a> │
+│ <span class="c-bld">clankmaxxers</span> │ <span class="c-amb">tax_v0 </span> │     100 │      100 │       0% │ <span class="c-mut">    0%</span> │ <span class="c-mut">        0%</span> │ <span class="c-dim">   10%</span> │ <span class="c-dim">  20s</span> │ <a href="https://www.clanker.world/clanker/0xEB7476f857D326b1409f5C40749aFB82Cd6FccCC" target="_blank" rel="noopener">0xEB74…ccCC</a> │
+│ <span class="c-bld">clankmaxxers</span> │ <span class="c-amb">tax_v0 </span> │     100 │      100 │ <span class="c-grn">    100%</span> │ <span class="c-mut">    0%</span> │ <span class="c-mut">        0%</span> │ <span class="c-dim">   10%</span> │ <span class="c-dim">  20s</span> │ <a href="https://www.clanker.world/clanker/0x64340dA2089a215695323C0c08A72586dEA1Cccc" target="_blank" rel="noopener">0x6434…Cccc</a> │
+│ <span class="c-bld">CAT         </span> │ <span class="c-amb">tax_v0 </span> │     200 │      200 │ <span class="c-grn">    100%</span> │ <span class="c-mut">    0%</span> │ <span class="c-mut">        0%</span> │ <span class="c-dim">   10%</span> │ <span class="c-dim">  20s</span> │ <a href="https://www.clanker.world/clanker/0x9dfBFdaf080380437d1134Fb32a0a743dD26CCcc" target="_blank" rel="noopener">0x9dfB…CCcc</a> │
+│ <span class="c-bld">POISE       </span> │ <span class="c-amb">tax_v0 </span> │     200 │      200 │ <span class="c-grn">    100%</span> │ <span class="c-mut">    0%</span> │ <span class="c-mut">        0%</span> │ <span class="c-dim">   10%</span> │ <span class="c-dim">  20s</span> │ <a href="https://www.clanker.world/clanker/0x6520e2870Cc7625e74e07290102783728f77CcCc" target="_blank" rel="noopener">0x6520…CcCc</a> │
+│ <span class="c-bld">CAT         </span> │ <span class="c-amb">tax_v0 </span> │     100 │      100 │ <span class="c-grn">    100%</span> │ <span class="c-mut">    0%</span> │ <span class="c-mut">        0%</span> │ <span class="c-dim">   10%</span> │ <span class="c-dim">  20s</span> │ <a href="https://www.clanker.world/clanker/0x4a63c55deae21316ED3eAf64f8Bf2D183cd8CccC" target="_blank" rel="noopener">0x4a63…CccC</a> │
+└──────────────┴─────────┴─────────┴──────────┴──────────┴────────┴────────────┴────────┴───────┴─────────────┘</pre>
+    </section>
+
+    <!-- 03: CREATOR PNL RADAR -->
+    <section id="creators" class="panel">
+      <div class="panel-head">
+        <h2 class="panel-title"><span class="idx">03 //</span>CREATOR PNL RADAR — DEPLOYER CLUSTERING</h2>
+        <span class="tag tag-v0">v0 STUB · REAL ADMIN DATA</span>
+      </div>
+      <p class="panel-note">
+        <strong>v0 stub toward full Creator PnL:</strong> aggregates the current recent-launch window by <code>admin</code> / deployer wallet — surfacing serial launchers, fee regime preference, and combined market cap / 24h volume. Full realized WETH/token fee-claim PnL from Base hook &amp; FeeEscrow logs lands in v1.
+      </p>
+      <pre class="ascii-wrap" aria-label="Creator launch aggregation table">┌──────────────────┬──────────┬────────────┬─────────┬─────────┬───────────┬──────────┬──────────────────────────────┐
+│ <span class="c-dim">ADMIN / DEPLOYER</span> │ <span class="c-dim">LAUNCHES</span> │ <span class="c-dim">CADENCE   </span> │ <span class="c-dim">REGIME </span> │ <span class="c-dim">AVG BUY</span> │ <span class="c-dim"> SUM MCAP</span> │ <span class="c-dim">SUM V24H</span> │ <span class="c-dim">RECENT SYMBOLS (SAMPLE)     </span> │
+├──────────────────┼──────────┼────────────┼─────────┼─────────┼───────────┼──────────┼──────────────────────────────┤
+│ <a href="https://basescan.org/address/0x1afab1f6B0D565544EffB26fCA7D6b5e9CB46C81" target="_blank" rel="noopener">0x1afa…6C81</a>      │ <span class="c-amb">      12</span> │ <span class="c-amb">██████████</span> │ <span class="c-dim">v4_lp  </span> │   500bp │   $284.3K │ <span class="c-mut">      $0</span> │ <span class="c-bld">NGR, BRNE, GAVELDROP, STOCK~</span> │
+│ <a href="https://basescan.org/address/0xA83b4fCA82265AE81f6254c9e410A13418f25f92" target="_blank" rel="noopener">0xA83b…5f92</a>      │ <span class="c-amb">      10</span> │ <span class="c-amb">████████░░</span> │ <span class="c-dim">v4_lp  </span> │   100bp │        $0 │ <span class="c-mut">      $0</span> │ <span class="c-bld">Claude, Anthropic           </span> │
+│ <a href="https://basescan.org/address/0x1dd3526bAdb4170c73bC0c12eB97F0f1227287D9" target="_blank" rel="noopener">0x1dd3…87D9</a>      │ <span class="c-amb">       7</span> │ <span class="c-amb">██████░░░░</span> │ <span class="c-dim">tax_v0 </span> │   429bp │    $28.1K │ <span class="c-mut">      $0</span> │ <span class="c-bld">clankmaxx~, monkeys, CAT    </span> │
+│ <a href="https://basescan.org/address/0x16D4e81E840d00F4135f13d3273967B1D4d00478" target="_blank" rel="noopener">0x16D4…0478</a>      │ <span class="c-amb">       7</span> │ <span class="c-amb">██████░░░░</span> │ <span class="c-dim">tax_v0 </span> │   100bp │    $24.0K │ <span class="c-grn">      $4</span> │ <span class="c-bld">AXIS, CATE, CAT             </span> │
+│ <a href="https://basescan.org/address/0x813b8f0144BD8DbaEcfD1aE3AF28ad4879Ac50f7" target="_blank" rel="noopener">0x813b…50f7</a>      │ <span class="c-amb">       5</span> │ <span class="c-amb">████░░░░░░</span> │ <span class="c-dim">tax_v0 </span> │   100bp │    $20.0K │ <span class="c-mut">      $0</span> │ <span class="c-bld">CMonkey, clankmaxx~, PF, Re~</span> │
+│ <a href="https://basescan.org/address/0xC02f0697eabD744559386be2df31Ed51593F8bce" target="_blank" rel="noopener">0xC02f…8bce</a>      │ <span class="c-amb">       2</span> │ <span class="c-amb">██░░░░░░░░</span> │ <span class="c-dim">v4_lp  </span> │   100bp │    $46.8K │ <span class="c-mut">      $0</span> │ <span class="c-bld">bootlawb, HAWKCEO           </span> │
+│ <a href="https://basescan.org/address/0xbabB7BE0B5d6871331CBEf588AE95695df8088BA" target="_blank" rel="noopener">0xbabB…88BA</a>      │ <span class="c-amb">       2</span> │ <span class="c-amb">██░░░░░░░░</span> │ <span class="c-dim">tax_v0 </span> │   650bp │     $8.0K │ <span class="c-mut">      $0</span> │ <span class="c-bld">CUPI, Clankercat            </span> │
+│ <a href="https://basescan.org/address/0xBe2d47420dcD8119e4096c087A6C149A62626e75" target="_blank" rel="noopener">0xBe2d…6e75</a>      │ <span class="c-amb">       2</span> │ <span class="c-amb">██░░░░░░░░</span> │ <span class="c-dim">v4_lp  </span> │   700bp │     $3.8K │ <span class="c-grn">     $14</span> │ <span class="c-bld">clankmaxx~, MAXBOT          </span> │
+│ <a href="https://basescan.org/address/0x4491f8bDBbaE664da02a582e56b4B0B1f1764630" target="_blank" rel="noopener">0x4491…4630</a>      │        1 │ <span class="c-dim">█░░░░░░░░░</span> │ <span class="c-dim">v4_lp  </span> │   100bp │    $23.6K │ <span class="c-mut">      $0</span> │ BAC                          │
+│ <a href="https://basescan.org/address/0xaeeA4A94fe2cE0d3814B5f46EEb83C9e91ab11C8" target="_blank" rel="noopener">0xaeeA…11C8</a>      │        1 │ <span class="c-dim">█░░░░░░░░░</span> │ <span class="c-dim">v4_lp  </span> │   100bp │    $23.6K │ <span class="c-mut">      $0</span> │ CAT                          │
+│ <a href="https://basescan.org/address/0x249AD3ED050DfedF61Ccb93D1C8558Cdca0e700e" target="_blank" rel="noopener">0x249A…700e</a>      │        1 │ <span class="c-dim">█░░░░░░░░░</span> │ <span class="c-dim">v4_lp  </span> │   100bp │    $23.6K │ <span class="c-mut">      $0</span> │ STANISLOOU                   │
+│ <a href="https://basescan.org/address/0x7FF19F2b584FD7E4D43f128852012ee6b474f281" target="_blank" rel="noopener">0x7FF1…f281</a>      │        1 │ <span class="c-dim">█░░░░░░░░░</span> │ <span class="c-dim">v4_lp  </span> │   100bp │    $23.6K │ <span class="c-mut">      $0</span> │ SUPERNOVE~                   │
+│ <a href="https://basescan.org/address/0x7d17b76F5189eD25CA786783Cf7AD023415Ae852" target="_blank" rel="noopener">0x7d17…e852</a>      │        1 │ <span class="c-dim">█░░░░░░░░░</span> │ <span class="c-dim">v4_lp  </span> │   100bp │    $23.6K │ <span class="c-mut">      $0</span> │ TETHER                       │
+│ <a href="https://basescan.org/address/0x3Bd7Fa8dD37d05152808B311CB5bf1aBC646e548" target="_blank" rel="noopener">0x3Bd7…e548</a>      │        1 │ <span class="c-dim">█░░░░░░░░░</span> │ <span class="c-dim">v4_lp  </span> │   100bp │    $23.5K │ <span class="c-mut">      $0</span> │ REBOOTMASK                   │
+│ <a href="https://basescan.org/address/0x1f07f8cdea81Af5d82C009f11aF851d742F59415" target="_blank" rel="noopener">0x1f07…9415</a>      │        1 │ <span class="c-dim">█░░░░░░░░░</span> │ <span class="c-dim">v4_lp  </span> │   100bp │    $23.4K │ <span class="c-mut">      $0</span> │ grok                         │
+│ <a href="https://basescan.org/address/0x9936fE338A24A45C7e0F8B0Eaa3A13d44cCDa1d9" target="_blank" rel="noopener">0x9936…a1d9</a>      │        1 │ <span class="c-dim">█░░░░░░░░░</span> │ <span class="c-dim">v4_lp  </span> │   100bp │    $23.4K │ <span class="c-mut">      $0</span> │ TOADY                        │
+└──────────────────┴──────────┴────────────┴─────────┴─────────┴───────────┴──────────┴──────────────────────────────┘</pre>
+    </section>
+
+    <!-- 04: LAUNCH COHORT BOARD -->
+    <section id="cohorts" class="panel">
+      <div class="panel-head">
+        <h2 class="panel-title"><span class="idx">04 //</span>LAUNCH COHORT BOARD — UTC DEPLOY CADENCE</h2>
+        <span class="tag tag-v0">v0 STUB · HOURLY &amp; 15M HISTOGRAM</span>
+      </div>
+      <p class="panel-note">
+        <strong>v0 stub toward Cohort Survival:</strong> buckets the recent paginated sample into UTC hours and 15-minute slots, splitting <code>v4_lp</code> vs <code>tax_v0</code> mix and tracking how many launches in each bucket have non-zero 24h volume. Multi-day rolling retention curves arrive once archived snapshots accumulate.
+      </p>
+      <pre class="ascii-wrap" aria-label="Launch cohort hourly and 15-minute ASCII histograms">┌───────────────────┬─────────┬──────────────────────────┬───────┬────────┬───────┬─────────────┐
+│ <span class="c-dim">UTC HOUR BUCKET  </span> │ <span class="c-dim">DEPLOYS</span> │ <span class="c-dim">HOURLY LAUNCH HISTOGRAM </span> │ <span class="c-dim">V4_LP</span> │ <span class="c-dim">TAX_V0</span> │ <span class="c-dim">VOL&gt;0</span> │ <span class="c-dim">COHORT V24H</span> │
+├───────────────────┼─────────┼──────────────────────────┼───────┼────────┼───────┼─────────────┤
+│ <span class="c-bld">2026-11-05 15:00Z</span> │ <span class="c-grn">     22</span> │ <span class="c-grn">██████████████████████░░</span> │ <span class="c-dim">   13</span> │ <span class="c-amb">     9</span> │ <span class="c-grn"> 2/22</span> │ <span class="c-grn">        $14</span> │
+│ <span class="c-bld">2026-11-05 14:00Z</span> │ <span class="c-grn">     22</span> │ <span class="c-grn">██████████████████████░░</span> │ <span class="c-dim">   13</span> │ <span class="c-amb">     9</span> │ <span class="c-grn"> 6/22</span> │ <span class="c-grn">     $21.4K</span> │
+│ <span class="c-bld">2026-11-05 13:00Z</span> │ <span class="c-grn">     24</span> │ <span class="c-grn">████████████████████████</span> │ <span class="c-dim">    9</span> │ <span class="c-amb">    15</span> │ <span class="c-grn"> 1/24</span> │ <span class="c-grn">         $4</span> │
+│ <span class="c-bld">2026-11-05 12:00Z</span> │ <span class="c-grn">     12</span> │ <span class="c-grn">████████████░░░░░░░░░░░░</span> │ <span class="c-dim">    9</span> │ <span class="c-amb">     3</span> │ <span class="c-grn"> 2/12</span> │ <span class="c-grn">      $2.3K</span> │
+└───────────────────┴─────────┴──────────────────────────┴───────┴────────┴───────┴─────────────┘
+
+┌────────────────┬───────────┬──────────────────────────────────────┐
+│ <span class="c-dim">15M UTC SLOT  </span> │ <span class="c-dim">  DEPLOYS</span> │ <span class="c-dim">15-MINUTE MICRO-CADENCE HISTOGRAM   </span> │
+├────────────────┼───────────┼──────────────────────────────────────┤
+│ <span class="c-bld">15:15Z        </span> │ <span class="c-amb">       10</span> │ <span class="c-amb">██████████████████████████████░░░░░░</span> │
+│ <span class="c-bld">15:00Z        </span> │ <span class="c-amb">       12</span> │ <span class="c-amb">████████████████████████████████████</span> │
+│ <span class="c-bld">14:45Z        </span> │ <span class="c-amb">        7</span> │ <span class="c-amb">█████████████████████░░░░░░░░░░░░░░░</span> │
+│ <span class="c-bld">14:30Z        </span> │ <span class="c-amb">        8</span> │ <span class="c-amb">████████████████████████░░░░░░░░░░░░</span> │
+│ <span class="c-bld">14:15Z        </span> │ <span class="c-amb">        5</span> │ <span class="c-amb">███████████████░░░░░░░░░░░░░░░░░░░░░</span> │
+│ <span class="c-bld">14:00Z        </span> │ <span class="c-amb">        2</span> │ <span class="c-amb">██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</span> │
+│ <span class="c-bld">13:45Z        </span> │ <span class="c-amb">        4</span> │ <span class="c-amb">████████████░░░░░░░░░░░░░░░░░░░░░░░░</span> │
+│ <span class="c-bld">13:30Z        </span> │ <span class="c-amb">        5</span> │ <span class="c-amb">███████████████░░░░░░░░░░░░░░░░░░░░░</span> │
+│ <span class="c-bld">13:15Z        </span> │ <span class="c-amb">        8</span> │ <span class="c-amb">████████████████████████░░░░░░░░░░░░</span> │
+│ <span class="c-bld">13:00Z        </span> │ <span class="c-amb">        7</span> │ <span class="c-amb">█████████████████████░░░░░░░░░░░░░░░</span> │
+└────────────────┴───────────┴──────────────────────────────────────┘</pre>
+    </section>
+
+    <!-- 05: ROADMAP -->
+    <section id="roadmap" class="panel">
+      <div class="panel-head">
+        <h2 class="panel-title"><span class="idx">05 //</span>ANALYTICS ROADMAP</h2>
+        <span class="tag">SHIP LOG</span>
+      </div>
+      <p class="panel-note">
+        Clank Tape ships incrementally as a zero-dependency static board regenerated on schedule from verifiable public telemetry.
+      </p>
+      <pre class="ascii-wrap" aria-label="Product roadmap status table">┌──────┬────────────────────────────┬──────────────┬───────────────────────────────────────────────────────────┐
+│ <span class="c-dim">STAT</span> │ <span class="c-dim">MODULE</span>                     │ <span class="c-dim">RELEASE</span>      │ <span class="c-dim">SCOPE &amp; NEXT MILESTONE</span>                                    │
+├──────┼────────────────────────────┼──────────────┼───────────────────────────────────────────────────────────┤
+│ <span class="c-grn">[✓]</span>  │ <span class="c-bld">01 · Daily Tape</span>            │ <span class="c-grn">LIVE (v0.1)</span>  │ Paginated recent deploys + 24h trending + ASCII depth bars│
+│ <span class="c-grn">[✓]</span>  │ <span class="c-bld">02 · Fee Reality Card</span>      │ <span class="c-grn">LIVE (v0.1)</span>  │ Normalized v4 LP &amp; tax_v0 bps + creator/burn/integ splits │
+│ <span class="c-amb">[~]</span>  │ <span class="c-bld">03 · Creator PnL Radar</span>     │ <span class="c-amb">STUB (v0)</span>    │ Live admin launch clustering → next: Base fee-claim logs  │
+│ <span class="c-amb">[~]</span>  │ <span class="c-bld">04 · Launch Cohort Board</span>   │ <span class="c-amb">STUB (v0)</span>    │ UTC hourly/15m histograms → next: 24h/7d survival curves  │
+├──────┼────────────────────────────┼──────────────┼───────────────────────────────────────────────────────────┤
+│ <span class="c-dim">[ ]</span>  │ 05 · Realized Fee Cashflow │ NEXT         │ Reconcile stated bps vs on-chain hook/escrow WETH claims  │
+│ <span class="c-dim">[ ]</span>  │ 06 · Sniper Decay Audit    │ NEXT         │ Window-0 sniper tax capture vs post-decay organic flow    │
+│ <span class="c-dim">[ ]</span>  │ 07 · Historical Tape Diffs │ NEXT         │ Rolling multi-day archive in git for cohort retention     │
+└──────┴────────────────────────────┴──────────────┴───────────────────────────────────────────────────────────┘</pre>
+    </section>
+
+    <footer class="footer">
+      <div>
+        <p><strong>CLANK TAPE</strong> · independent trader analytics board for Clanker on Base (chain_id 8453).</p>
+        <p>Data sourced from public <code>clanker.world/api</code> endpoints · Not affiliated with or endorsed by Clanker.</p>
+      </div>
+      <div>
+        <p>All timestamps in <strong>UTC</strong> · Snapshot baked at <code>2026-11-05T15:28:57Z</code></p>
+        <p>Source: <a href="https://github.com/avalidurl/clank-tape" target="_blank" rel="noopener">github.com/avalidurl/clank-tape</a> · JSON: <a href="data/latest.json">data/latest.json</a></p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('btn-check-json');
+      var note = document.getElementById('refresh-note');
+      var snapTs = document.getElementById('snap-ts');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        note.textContent = 'checking data/latest.json...';
+        fetch('data/latest.json?t=' + Date.now(), { cache: 'no-store' })
+          .then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+          })
+          .then(function (d) {
+            var remoteTs = d.generated_at || '';
+            var curTs = (snapTs.textContent || '').trim();
+            if (remoteTs && remoteTs !== curTs) {
+              note.textContent = 'newer snapshot (' + remoteTs + ') — reloading...';
+              window.location.reload();
+            } else {
+              var st = d.stats || {};
+              note.textContent = 'up to date · ' + remoteTs + ' (' + (st.recent_sample_size || 0) + ' recent)';
+            }
+          })
+          .catch(function (e) {
+            note.textContent = 'static snapshot active (' + e.message + ')';
+          });
+      });
+    })();
+  </script>
+</body>
+</html>

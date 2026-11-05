@@ -1,0 +1,42 @@
+name: Update Clank Tape
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-tape-snapshot
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Fetch live Clanker snapshot & render static board
+        run: python3 scripts/snapshot.py
+
+      - name: Commit & push updated snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/latest.json index.html
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          SNAP_TS=$(python3 -c 'import json; print(json.load(open("data/latest.json"))["generated_at"])')
+          git commit -m "chore(tape): snapshot ${SNAP_TS}"
+          git pull --rebase origin main
+          git push origin main

@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+raw-recent.json
+raw-trending.json
+.DS_Store
+.github/workflows/
