@@ -13,7 +13,7 @@
   --amber-dim: #8a5e1a;
   --red: #ff5f56;
   --cyan: #5ce1e6;
-  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-mono: ui-monospace, 'IBM Plex Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 *, *::before, *::after {
@@ -42,7 +42,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Subtle CRT scanline texture */
+/* Soft CRT hint — kept off the text so ASCII tables stay steady */
 .scanlines {
   pointer-events: none;
   position: fixed;
@@ -51,10 +51,11 @@ body {
   background: repeating-linear-gradient(
     to bottom,
     transparent 0px,
-    transparent 2px,
-    rgba(0, 0, 0, 0.16) 3px
+    transparent 3px,
+    rgba(0, 0, 0, 0.04) 4px
   );
-  opacity: 0.45;
+  opacity: 0.18;
+  mix-blend-mode: multiply;
 }
 
 a {
@@ -357,32 +358,57 @@ a:hover {
 
 .ascii-wrap {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 12px 14px;
   margin: 0;
   font-family: var(--font-mono);
   font-size: 12px;
-  line-height: 1.38;
+  font-weight: 400;
+  font-synthesis: none;
+  font-kerning: none;
+  font-variant-ligatures: none;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+  line-height: 1.45;
+  white-space: pre;
+  tab-size: 4;
   color: var(--fg);
   background: #07090a;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Keep every glyph the same advance width — bold broke column grids */
+.ascii-wrap a,
+.ascii-wrap span,
+.ascii-wrap strong,
+.ascii-wrap b,
+.ascii-wrap code {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 400;
+  letter-spacing: inherit;
+  line-height: inherit;
 }
 
 .ascii-wrap a {
   border-bottom: none;
   color: var(--cyan);
+  text-decoration: none;
 }
 .ascii-wrap a:hover {
   color: var(--green);
   text-decoration: underline;
 }
 
-/* Color helpers inside pre blocks */
+/* Color helpers inside pre blocks (color only — never weight) */
 .c-grn { color: var(--green); }
 .c-amb { color: var(--amber); }
 .c-red { color: var(--red); }
 .c-dim { color: var(--fg-dim); }
 .c-mut { color: var(--fg-muted); }
 .c-cyn { color: var(--cyan); }
-.c-bld { font-weight: 600; color: #eef5f2; }
+.c-bld { color: #eef5f2; }
 
 .sub-head {
   padding: 7px 14px;
