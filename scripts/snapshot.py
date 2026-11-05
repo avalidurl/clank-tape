@@ -992,6 +992,10 @@ def render_html(snapshot: dict[str, Any]) -> str:
       </div>
     </header>
 
+    <section class="panel moat-strip" id="moat" aria-label="Moat">
+      <pre class="ascii-wrap">MOAT · Clanker-native fee decode + deploy tape + creator cadence + launch cohorts — not another candle chart.</pre>
+    </section>
+
     <!-- Dense Terminal KPI Strip -->
     <section class="kpi-strip" aria-label="Snapshot summary metrics">
       <div class="kpi-cell">
