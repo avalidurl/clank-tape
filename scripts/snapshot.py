@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Clank Tape — static snapshot & ASCII terminal renderer.
+Clank Tape - static snapshot & ASCII terminal renderer.
 
 Fetches public Clanker endpoints (no limit= query param, paginated via cursor),
 writes compact structured data to data/latest.json, and renders static index.html
-with Looptape-style Unicode box-drawing tables, ASCII bars, and histograms.
+with Looptape-style pure ASCII tables, ASCII bars, and histograms.
 """
 
 from __future__ import annotations
@@ -68,16 +68,16 @@ def to_float(val: Any, default: float = 0.0) -> float:
 
 def short_addr(addr: str | None) -> str:
     if not addr or len(addr) < 12:
-        return addr or "—"
-    return f"{addr[:6]}…{addr[-4:]}"
+        return addr or "-"
+    return f"{addr[:6]}..{addr[-4:]}"
 
 
 def clean_str(val: Any, max_len: int = 16) -> str:
     if val is None:
-        return "—"
+        return "-"
     s = "".join(ch if ch.isprintable() else "" for ch in str(val)).strip()
     if not s:
-        return "—"
+        return "-"
     # Keep ASCII-width predictable inside box-drawing tables
     s_ascii = s.encode("ascii", "replace").decode("ascii")
     if len(s_ascii) > max_len:
@@ -101,14 +101,14 @@ def fmt_usd(val: float) -> str:
 
 def fmt_pct(val: float | None) -> str:
     if val is None:
-        return "   —   "
+        return "   -   "
     sign = "+" if val > 0 else ""
     return f"{sign}{val:.1f}%"
 
 
 def ascii_bar(value: float, max_value: float, width: int = 12, log_scale: bool = False) -> str:
     if max_value <= 0 or value <= 0:
-        return "░" * width
+        return "." * width
     if log_scale:
         v = math.log10(max(value, 1.0))
         m = math.log10(max(max_value, 10.0))
@@ -118,7 +118,7 @@ def ascii_bar(value: float, max_value: float, width: int = 12, log_scale: bool =
     filled = int(round(ratio * width))
     if value > 0 and filled == 0:
         filled = 1
-    return ("█" * filled) + ("░" * (width - filled))
+    return ("#" * filled) + ("." * (width - filled))
 
 
 def parse_iso_utc(ts: str | None) -> dt.datetime | None:
@@ -136,7 +136,7 @@ def parse_iso_utc(ts: str | None) -> dt.datetime | None:
 
 def fmt_age(deployed_dt: dt.datetime | None, now_dt: dt.datetime) -> str:
     if not deployed_dt:
-        return "—"
+        return "-"
     sec = max(0, int((now_dt - deployed_dt).total_seconds()))
     if sec < 60:
         return f"{sec}s"
@@ -424,7 +424,7 @@ def collect_snapshot() -> dict[str, Any]:
         total_mcap = sum(it["market_cap_usd"] for it in items)
         total_vol = sum(it["volume_24h_usd"] for it in items)
         regimes = Counter(it["fee"]["regime"] for it in items)
-        top_regime = regimes.most_common(1)[0][0] if regimes else "—"
+        top_regime = regimes.most_common(1)[0][0] if regimes else "-"
         avg_buy_bps_vals = [it["fee"]["buy_bps"] for it in items if it["fee"]["buy_bps"] is not None]
         avg_buy_bps = round(sum(avg_buy_bps_vals) / len(avg_buy_bps_vals), 1) if avg_buy_bps_vals else None
 
@@ -532,21 +532,25 @@ def build_box_table(
     rows: list[list[tuple[str, str | None]]],
 ) -> str:
     """
-    Build a Unicode box-drawing table where each cell tuple is (plain_ascii_str, optional_css_class_or_link_html).
-    Width alignment is computed strictly on plain_ascii_str so columns never drift.
+    Pure ASCII table (+ - |) so every glyph is one advance wide in monospace fonts.
+    Unicode box-drawing often has wrong metrics and makes columns look glitched.
+    Cell tuple: (plain_ascii_str, optional css class OR "href:URL").
     """
     widths = [w for _, w, _ in headers]
     aligns = [a for _, _, a in headers]
 
-    top = "┌" + "┬".join("─" * (w + 2) for w in widths) + "┐"
-    mid = "├" + "┼".join("─" * (w + 2) for w in widths) + "┤"
-    bot = "└" + "┴".join("─" * (w + 2) for w in widths) + "┘"
+    def rule(sep: str) -> str:
+        return "+" + sep.join("-" * (w + 2) for w in widths) + "+"
+
+    top = rule("+")
+    mid = rule("+")
+    bot = rule("+")
 
     head_cells = []
     for (title, w, a) in headers:
-        p = html.escape(pad(title, w, a))
-        head_cells.append(f" <span class=\"c-dim\">{p}</span> ")
-    head_line = "│" + "│".join(head_cells) + "│"
+        cell = html.escape(pad(title, w, a))
+        head_cells.append(f" <span class=\"c-dim\">{cell}</span> ")
+    head_line = "|" + "|".join(head_cells) + "|"
 
     out = [top, head_line, mid]
     for r in rows:
@@ -554,13 +558,14 @@ def build_box_table(
         for idx, (plain, rich) in enumerate(r):
             w = widths[idx]
             a = aligns[idx]
-            padded = pad(plain, w, a)
+            # Force ASCII-only cell text so widths stay honest
+            plain_ascii = "".join(ch if ord(ch) < 128 else "?" for ch in str(plain))
+            padded = pad(plain_ascii, w, a)
             escaped_padded = html.escape(padded)
             if rich is None:
                 rendered_cells.append(f" {escaped_padded} ")
             elif rich.startswith("href:"):
                 url = html.escape(rich[5:], quote=True)
-                # Preserve exact padding spaces outside anchor if needed
                 stripped = padded.strip()
                 esc_strip = html.escape(stripped)
                 lead = len(padded) - len(padded.lstrip(" "))
@@ -569,7 +574,7 @@ def build_box_table(
                 rendered_cells.append(f" {cell_html} ")
             else:
                 rendered_cells.append(f" <span class=\"{rich}\">{escaped_padded}</span> ")
-        out.append("│" + "│".join(rendered_cells) + "│")
+        out.append("|" + "|".join(rendered_cells) + "|")
     out.append(bot)
     return "\n".join(out)
 
@@ -593,16 +598,16 @@ def render_marquee_items(trending: list[dict[str, Any]]) -> str:
         if chg is not None:
             if chg > 0:
                 cls = "tick-up"
-                arrow = "▲"
+                arrow = "^"
             elif chg < 0:
                 cls = "tick-dn"
-                arrow = "▼"
+                arrow = "v"
         chunks.append(
             f'<span class="tick-item">'
             f'<span class="tick-sym">${sym}</span> '
             f'<span class="{cls}">{arrow}{chg_str}</span> '
             f'<span class="c-dim">MC:{mcap} V24:{vol}</span>'
-            f'<span class="tick-sep">│</span>'
+            f'<span class="tick-sep">|</span>'
             f'</span>'
         )
     joined = "".join(chunks)
@@ -645,7 +650,7 @@ def render_trending_ascii(trending: list[dict[str, Any]]) -> str:
             (fmt_usd(vol), None),
             (ascii_bar(vol, max_vol, 12, log_scale=False), "c-grn"),
             (fmt_pct(chg).strip(), chg_cls(chg)),
-            (f"{txc:,}" if txc else "—", "c-dim" if not txc else None),
+            (f"{txc:,}" if txc else "-", "c-dim" if not txc else None),
             (clean_str(t.get("age"), 6), "c-dim"),
             (short_addr(ca), link),
         ])
@@ -671,7 +676,7 @@ def render_recent_ascii(recent: list[dict[str, Any]]) -> str:
     rows = []
     for t in items:
         dep = t.get("deployed_at") or ""
-        hhmmss = dep[11:19] if len(dep) >= 19 else "—"
+        hhmmss = dep[11:19] if len(dep) >= 19 else "-"
         sym = clean_str(t.get("symbol"), 12)
         fee = t.get("fee") or {}
         reg = clean_str(fee.get("regime"), 8)
@@ -680,7 +685,7 @@ def render_recent_ascii(recent: list[dict[str, Any]]) -> str:
         if b_bps is not None and s_bps is not None:
             bs_str = f"{int(round(b_bps))}/{int(round(s_bps))}bp"
         else:
-            bs_str = "—"
+            bs_str = "-"
         mcap = to_float(t.get("market_cap_usd"))
         vol = to_float(t.get("volume_24h_usd"))
         adm = t.get("admin") or ""
@@ -783,17 +788,17 @@ def render_fee_reality_ascii(snapshot: dict[str, Any]) -> str:
         b_bps = f.get("buy_bps")
         s_bps = f.get("sell_bps")
         dyn_max = f.get("dynamic_max_bps")
-        sell_txt = f"{int(round(s_bps))}→{int(round(dyn_max))}" if dyn_max else (f"{int(round(s_bps))}" if s_bps is not None else "—")
-        buy_txt = f"{int(round(b_bps))}" if b_bps is not None else "—"
+        sell_txt = f"{int(round(s_bps))}->{int(round(dyn_max))}" if dyn_max else (f"{int(round(s_bps))}" if s_bps is not None else "-")
+        buy_txt = f"{int(round(b_bps))}" if b_bps is not None else "-"
 
-        c_pct = f"{f['creator_pct']:.0f}%" if f.get("creator_pct") is not None else "—"
+        c_pct = f"{f['creator_pct']:.0f}%" if f.get("creator_pct") is not None else "-"
         brn_val = f.get("burn_pct") or 0.0
         int_val = f.get("integrator_pct") or 0.0
-        brn_txt = f"{brn_val:.0f}%" if f.get("burn_pct") is not None else "—"
-        int_txt = f"{int_val:.0f}%" if f.get("integrator_pct") is not None else "—"
-        prt_txt = f"{f['protocol_skim_pct']:.0f}%" if f.get("protocol_skim_pct") is not None else "—"
+        brn_txt = f"{brn_val:.0f}%" if f.get("burn_pct") is not None else "-"
+        int_txt = f"{int_val:.0f}%" if f.get("integrator_pct") is not None else "-"
+        prt_txt = f"{f['protocol_skim_pct']:.0f}%" if f.get("protocol_skim_pct") is not None else "-"
         snp = f.get("sniper_window_s") or 0
-        snp_txt = f"{snp}s" if snp > 0 else "—"
+        snp_txt = f"{snp}s" if snp > 0 else "-"
 
         rows.append([
             (clean_str(t.get("symbol"), 12), "c-bld"),
@@ -831,7 +836,7 @@ def render_creators_ascii(snapshot: dict[str, Any]) -> str:
         cnt = int(c.get("launch_count") or 0)
         syms = ", ".join(c.get("symbols") or [])
         avg_b = c.get("avg_buy_bps")
-        avg_str = f"{int(round(avg_b))}bp" if avg_b is not None else "—"
+        avg_str = f"{int(round(avg_b))}bp" if avg_b is not None else "-"
         vol = to_float(c.get("sum_vol_24h_usd"))
         rows.append([
             (short_addr(adm), f"href:https://basescan.org/address/{adm}" if adm else None),
@@ -895,27 +900,26 @@ def render_cohorts_ascii(snapshot: dict[str, Any]) -> str:
 
 
 def render_roadmap_ascii() -> str:
-    lines = [
-        "┌──────┬────────────────────────────┬──────────────┬───────────────────────────────────────────────────────────┐",
-        "│ <span class=\"c-dim\">STAT</span> │ <span class=\"c-dim\">MODULE</span>                     │ <span class=\"c-dim\">RELEASE</span>      │ <span class=\"c-dim\">SCOPE &amp; NEXT MILESTONE</span>                                    │",
-        "├──────┼────────────────────────────┼──────────────┼───────────────────────────────────────────────────────────┤",
-        "│ <span class=\"c-grn\">[✓]</span>  │ <span class=\"c-bld\">01 · Daily Tape</span>            │ <span class=\"c-grn\">LIVE (v0.1)</span>  │ Paginated recent deploys + 24h trending + ASCII depth bars│",
-        "│ <span class=\"c-grn\">[✓]</span>  │ <span class=\"c-bld\">02 · Fee Reality Card</span>      │ <span class=\"c-grn\">LIVE (v0.1)</span>  │ Normalized v4 LP &amp; tax_v0 bps + creator/burn/integ splits │",
-        "│ <span class=\"c-amb\">[~]</span>  │ <span class=\"c-bld\">03 · Creator PnL Radar</span>     │ <span class=\"c-amb\">STUB (v0)</span>    │ Live admin launch clustering → next: Base fee-claim logs  │",
-        "│ <span class=\"c-amb\">[~]</span>  │ <span class=\"c-bld\">04 · Launch Cohort Board</span>   │ <span class=\"c-amb\">STUB (v0)</span>    │ UTC hourly/15m histograms → next: 24h/7d survival curves  │",
-        "├──────┼────────────────────────────┼──────────────┼───────────────────────────────────────────────────────────┤",
-        "│ <span class=\"c-dim\">[ ]</span>  │ 05 · Realized Fee Cashflow │ NEXT         │ Reconcile stated bps vs on-chain hook/escrow WETH claims  │",
-        "│ <span class=\"c-dim\">[ ]</span>  │ 06 · Sniper Decay Audit    │ NEXT         │ Window-0 sniper tax capture vs post-decay organic flow    │",
-        "│ <span class=\"c-dim\">[ ]</span>  │ 07 · Historical Tape Diffs │ NEXT         │ Rolling multi-day archive in git for cohort retention     │",
-        "└──────┴────────────────────────────┴──────────────┴───────────────────────────────────────────────────────────┘",
-    ]
-    return "\n".join(lines)
+    return "\n".join([
+        "+------+----------------------------+--------------+-----------------------------------------------------------+",
+        "| <span class=\"c-dim\">STAT</span> | <span class=\"c-dim\">MODULE</span>                     | <span class=\"c-dim\">RELEASE</span>      | <span class=\"c-dim\">SCOPE &amp; NEXT MILESTONE</span>                                    |",
+        "+------+----------------------------+--------------+-----------------------------------------------------------+",
+        "| <span class=\"c-grn\">[OK]</span> | <span class=\"c-bld\">01 · Daily Tape</span>            | <span class=\"c-grn\">LIVE (v0.1)</span>  | Paginated recent deploys + 24h trending + ASCII depth bars|",
+        "| <span class=\"c-grn\">[OK]</span> | <span class=\"c-bld\">02 · Fee Reality Card</span>      | <span class=\"c-grn\">LIVE (v0.1)</span>  | Normalized v4 LP &amp; tax_v0 bps + creator/burn/integ splits |",
+        "| <span class=\"c-amb\">[~]</span>  | <span class=\"c-bld\">03 · Creator PnL Radar</span>     | <span class=\"c-amb\">STUB (v0)</span>    | Live admin launch clustering -> next: Base fee-claim logs |",
+        "| <span class=\"c-amb\">[~]</span>  | <span class=\"c-bld\">04 · Launch Cohort Board</span>   | <span class=\"c-amb\">STUB (v0)</span>    | UTC hourly/15m histograms -> next: 24h/7d survival curves  |",
+        "+------+----------------------------+--------------+-----------------------------------------------------------+",
+        "| <span class=\"c-dim\">[ ]</span>  | 05 · Realized Fee Cashflow | NEXT         | Reconcile stated bps vs on-chain hook/escrow WETH claims  |",
+        "| <span class=\"c-dim\">[ ]</span>  | 06 · Sniper Decay Audit    | NEXT         | Window-0 sniper tax capture vs post-decay organic flow    |",
+        "| <span class=\"c-dim\">[ ]</span>  | 07 · Historical Tape Diffs | NEXT         | Rolling multi-day archive in git for cohort retention     |",
+        "+------+----------------------------+--------------+-----------------------------------------------------------+",
+    ])
 
 
 def render_html(snapshot: dict[str, Any]) -> str:
     gen_at = html.escape(snapshot["generated_at"])
     st = snapshot["stats"]
-    total_dep = f"{st['tokens_deployed_total']:,}" if st.get("tokens_deployed_total") else "—"
+    total_dep = f"{st['tokens_deployed_total']:,}" if st.get("tokens_deployed_total") else "-"
     tr_vol = fmt_usd(to_float(st.get("trending_24h_vol_usd")))
     tr_mcap = fmt_usd(to_float(st.get("trending_sum_mcap_usd")))
     sample_n = st.get("recent_sample_size", 0)
@@ -938,7 +942,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CLANK TAPE · Clanker Trader Analytics Board</title>
-  <meta name="description" content="Clank Tape: ASCII terminal analytics board for Clanker launches on Base — Daily Tape, Fee Reality Card, Creator PnL Radar, and Launch Cohort Board." />
+  <meta name="description" content="Clank Tape: ASCII terminal analytics board for Clanker launches on Base - Daily Tape, Fee Reality Card, Creator PnL Radar, and Launch Cohort Board." />
   <meta property="og:title" content="CLANK TAPE · Clanker Trader Analytics Board" />
   <meta property="og:description" content="Continuous ASCII tape for Clanker deploys, fee/tax reality in bps, creator launch clustering, and UTC launch cohorts on Base." />
   <meta name="theme-color" content="#08090a" />
@@ -997,7 +1001,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
     </header>
 
     <section class="panel moat-strip" id="moat" aria-label="Moat">
-      <pre class="ascii-wrap">MOAT · Clanker-native fee decode + deploy tape + creator cadence + launch cohorts — not another candle chart.</pre>
+      <pre class="ascii-wrap">MOAT · Clanker-native fee decode + deploy tape + creator cadence + launch cohorts - not another candle chart.</pre>
     </section>
 
     
@@ -1008,9 +1012,9 @@ def render_html(snapshot: dict[str, Any]) -> str:
         <span class="panel-meta">support the roadmap</span>
       </div>
       <pre class="ascii-wrap">BUY <a href="https://clanker.world/clanker/0xc06E100b577013248e094D44B77dd436fb4DCCcC" target="_blank" rel="noopener">$CTAPE</a> TO SUPPORT THE ROADMAP
-→ fee reality · creator radar · cohort board · next milestones
-→ <a href="https://clanker.world/clanker/0xc06E100b577013248e094D44B77dd436fb4DCCcC" target="_blank" rel="noopener">clanker.world/clanker/0xc06E…CCcC</a></pre>
-      <p class="cta-row" style="margin:12px 0 0;"><a class="btn-term" href="https://clanker.world/clanker/0xc06E100b577013248e094D44B77dd436fb4DCCcC" target="_blank" rel="noopener">[ BUY CTAPE → ]</a></p>
+-> fee reality · creator radar · cohort board · next milestones
+-> <a href="https://clanker.world/clanker/0xc06E100b577013248e094D44B77dd436fb4DCCcC" target="_blank" rel="noopener">clanker.world/clanker/0xc06E...CCcC</a></pre>
+      <p class="cta-row" style="margin:12px 0 0;"><a class="btn-term" href="https://clanker.world/clanker/0xc06E100b577013248e094D44B77dd436fb4DCCcC" target="_blank" rel="noopener">[ BUY CTAPE -> ]</a></p>
     </section>
 
 <!-- Dense Terminal KPI Strip -->
@@ -1045,7 +1049,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
     <!-- 01: DAILY TAPE -->
     <section id="tape" class="panel">
       <div class="panel-head">
-        <h2 class="panel-title"><span class="idx">01 //</span>DAILY TAPE — TRENDING &amp; FRESH DEPLOYS</h2>
+        <h2 class="panel-title"><span class="idx">01 //</span>DAILY TAPE - TRENDING &amp; FRESH DEPLOYS</h2>
         <span class="tag tag-live">LIVE · STATIC SNAPSHOT</span>
       </div>
       <p class="panel-note">
@@ -1060,11 +1064,11 @@ def render_html(snapshot: dict[str, Any]) -> str:
     <!-- 02: FEE REALITY CARD -->
     <section id="fees" class="panel">
       <div class="panel-head">
-        <h2 class="panel-title"><span class="idx">02 //</span>FEE REALITY CARD — TAX &amp; HOOK BPS BREAKDOWN</h2>
+        <h2 class="panel-title"><span class="idx">02 //</span>FEE REALITY CARD - TAX &amp; HOOK BPS BREAKDOWN</h2>
         <span class="tag tag-live">FIRST CUT · LIVE</span>
       </div>
       <p class="panel-note">
-        Normalized fee extraction across Clanker contract regimes. <code>tax_v0</code> encodes rates in 10<sup>-4</sup> bps (<code>1,000,000</code> = 100 bps = 1.00%) with explicit creator / burn / integrator allocation shares; <code>v4_lp</code> encodes static or dynamic hook fees in 10<sup>-2</sup> bps (<code>10,000</code> = 100 bps = 1.00%) split across recipient bps slots (including <code>0x…dEaD</code> burn routing).
+        Normalized fee extraction across Clanker contract regimes. <code>tax_v0</code> encodes rates in 10<sup>-4</sup> bps (<code>1,000,000</code> = 100 bps = 1.00%) with explicit creator / burn / integrator allocation shares; <code>v4_lp</code> encodes static or dynamic hook fees in 10<sup>-2</sup> bps (<code>10,000</code> = 100 bps = 1.00%) split across recipient bps slots (including <code>0x...dEaD</code> burn routing).
       </p>
       <pre class="ascii-wrap" aria-label="Fee reality summary and per-token bps breakdown">{fee_pre}</pre>
     </section>
@@ -1072,11 +1076,11 @@ def render_html(snapshot: dict[str, Any]) -> str:
     <!-- 03: CREATOR PNL RADAR -->
     <section id="creators" class="panel">
       <div class="panel-head">
-        <h2 class="panel-title"><span class="idx">03 //</span>CREATOR PNL RADAR — DEPLOYER CLUSTERING</h2>
+        <h2 class="panel-title"><span class="idx">03 //</span>CREATOR PNL RADAR - DEPLOYER CLUSTERING</h2>
         <span class="tag tag-v0">v0 STUB · REAL ADMIN DATA</span>
       </div>
       <p class="panel-note">
-        <strong>v0 stub toward full Creator PnL:</strong> aggregates the current recent-launch window by <code>admin</code> / deployer wallet — surfacing serial launchers, fee regime preference, and combined market cap / 24h volume. Full realized WETH/token fee-claim PnL from Base hook &amp; FeeEscrow logs lands in v1.
+        <strong>v0 stub toward full Creator PnL:</strong> aggregates the current recent-launch window by <code>admin</code> / deployer wallet - surfacing serial launchers, fee regime preference, and combined market cap / 24h volume. Full realized WETH/token fee-claim PnL from Base hook &amp; FeeEscrow logs lands in v1.
       </p>
       <pre class="ascii-wrap" aria-label="Creator launch aggregation table">{creators_pre}</pre>
     </section>
@@ -1084,7 +1088,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
     <!-- 04: LAUNCH COHORT BOARD -->
     <section id="cohorts" class="panel">
       <div class="panel-head">
-        <h2 class="panel-title"><span class="idx">04 //</span>LAUNCH COHORT BOARD — UTC DEPLOY CADENCE</h2>
+        <h2 class="panel-title"><span class="idx">04 //</span>LAUNCH COHORT BOARD - UTC DEPLOY CADENCE</h2>
         <span class="tag tag-v0">v0 STUB · HOURLY &amp; 15M HISTOGRAM</span>
       </div>
       <p class="panel-note">
@@ -1134,7 +1138,7 @@ def render_html(snapshot: dict[str, Any]) -> str:
             var remoteTs = d.generated_at || '';
             var curTs = (snapTs.textContent || '').trim();
             if (remoteTs && remoteTs !== curTs) {{
-              note.textContent = 'newer snapshot (' + remoteTs + ') — reloading...';
+              note.textContent = 'newer snapshot (' + remoteTs + ') - reloading...';
               window.location.reload();
             }} else {{
               var st = d.stats || {{}};
