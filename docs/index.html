@@ -41,6 +41,10 @@
           <a href="#host">[04] host</a>
           <span class="sep">/</span>
           <a href="#run">[05] run</a>
+          <span class="sep">/</span>
+          <a href="#aeon">[06] aeon</a>
+          <span class="sep">/</span>
+          <a href="#skill">[07] skill</a>
         </nav>
       </div>
     </header>
@@ -155,6 +159,39 @@ Until .github/workflows/daily-tape.yml is active, refresh manually:
 cd clank-tape
 python3 scripts/snapshot.py
 # open index.html locally, or push and wait for Pages</pre>
+    </section>
+
+
+    <section id="aeon" class="panel">
+      <div class="panel-head">
+        <span class="panel-tag">[06]</span>
+        <h2>Aeon?</h2>
+        <span class="panel-meta">agent runtime vs this board</span>
+      </div>
+      <pre class="ascii-wrap">Do we use Aeon here?
+  NO — not for the Daily Tape refresh.
+
+Clank Tape refresh = deterministic Python snapshot on GitHub Actions.
+Aeon (aeon.fun) = LLM agent runtime that also uses GitHub Actions, with
+skills/, model secrets, and cron that *thinks*.
+
+Use Aeon later only if you want agentic briefs/alerts on top of the tape.
+Do not wrap snapshot.py in Aeon just to republish static HTML.</pre>
+    </section>
+
+    <section id="skill" class="panel">
+      <div class="panel-head">
+        <span class="panel-tag">[07]</span>
+        <h2>LLM skill</h2>
+        <span class="panel-meta">for coding agents</span>
+      </div>
+      <pre class="ascii-wrap">Stable skill URL (same pattern as Clanker):
+  https://avalidurl.github.io/clank-tape/skill/skill.md
+
+Repo path: skill/skill.md
+
+Agents: fetch that URL (or clone the repo) when working on Clank Tape,
+refreshing the board, or explaining Fee Reality / cohorts / creators.</pre>
     </section>
 
     <footer class="site-foot">
