@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CLANK TAPE · Docs / Stack</title>
+  <meta name="description" content="Clank Tape stack, data pipeline, and hosting docs." />
+  <meta name="theme-color" content="#08090a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="tape-rail" aria-hidden="true">
+    <span class="tape-badge">CLANK TAPE // DOCS</span>
+    <div class="tape-track"><span class="tape-item">STACK · PIPELINE · HOSTING · API</span></div>
+  </div>
+
+  <div class="shell">
+    <header class="masthead" id="top">
+      <div class="masthead-top">
+        <div class="brand-block">
+          <h1 class="brand-title">CLANK TAPE · DOCS</h1>
+          <span class="brand-sub">stack · data · deploy · zero runtime deps</span>
+        </div>
+        <div class="status-cluster">
+          <span><a href="../">← back to board</a></span>
+          <span>REPO: <a href="https://github.com/avalidurl/clank-tape" target="_blank" rel="noopener">avalidurl/clank-tape</a></span>
+        </div>
+      </div>
+      <div class="nav-bar">
+        <nav class="nav-links" aria-label="Docs sections">
+          <a href="#stack">[01] stack</a>
+          <span class="sep">/</span>
+          <a href="#pipeline">[02] pipeline</a>
+          <span class="sep">/</span>
+          <a href="#api">[03] api</a>
+          <span class="sep">/</span>
+          <a href="#host">[04] host</a>
+          <span class="sep">/</span>
+          <a href="#run">[05] run</a>
+        </nav>
+      </div>
+    </header>
+
+    <section id="stack" class="panel">
+      <div class="panel-head">
+        <span class="panel-tag">[01]</span>
+        <h2>Stack</h2>
+        <span class="panel-meta">what ships</span>
+      </div>
+      <pre class="ascii-wrap">┌─ runtime ──────────────────────────────────────────────────────────────┐
+│ front end     static HTML + CSS (IBM Plex Mono)                        │
+│ charts/tables Unicode box-drawing + ASCII bars (baked at build time)   │
+│ JS            optional snapshot re-check only (board works without it) │
+│ frameworks    none                                                     │
+│ bundler       none                                                     │
+└────────────────────────────────────────────────────────────────────────┘
+
+┌─ build / fetch ────────────────────────────────────────────────────────┐
+│ language      Python 3.12 (stdlib only)                                 │
+│ script        scripts/snapshot.py                                      │
+│ libs          urllib · json · html · pathlib · math · collections      │
+│ pip packages  none                                                     │
+│ output        data/latest.json + index.html                            │
+└────────────────────────────────────────────────────────────────────────┘
+
+┌─ schedule / host ──────────────────────────────────────────────────────┐
+│ CI            GitHub Actions (ubuntu-latest, cron every 6h UTC)         │
+│ workflow      workflows/daily-tape.yml → .github/workflows/ when live  │
+│ host          GitHub Pages · main branch root · .nojekyll              │
+│ live URL      https://avalidurl.github.io/clank-tape/                  │
+│ chain focus   Base mainnet (8453)                                      │
+└────────────────────────────────────────────────────────────────────────┘</pre>
+    </section>
+
+    <section id="pipeline" class="panel">
+      <div class="panel-head">
+        <span class="panel-tag">[02]</span>
+        <h2>Pipeline</h2>
+        <span class="panel-meta">snapshot → board</span>
+      </div>
+      <pre class="ascii-wrap">  clanker.world/api
+        │
+        ├─ GET /tokens?sortBy=deployed-at&amp;sort=desc   (+ cursor pages)
+        ├─ GET /tokens?sortBy=market-cap&amp;sort=desc
+        └─ GET /tokens/trending
+                │
+                v
+        scripts/snapshot.py
+                │
+                ├─ normalize fees (v4_lp / v4_dyn / tax_v0 → bps)
+                ├─ aggregate creators + UTC cohorts
+                ├─ write data/latest.json
+                └─ bake ASCII panels → index.html
+                        │
+                        v
+              GitHub Pages (static)</pre>
+      <pre class="ascii-wrap">repo layout
+───────────
+clank-tape/
+├── index.html              baked board (regenerated)
+├── style.css               terminal CRT theme
+├── data/latest.json        last snapshot
+├── docs/index.html         this page
+├── scripts/snapshot.py     fetch + render
+└── workflows/daily-tape.yml  Actions recipe</pre>
+    </section>
+
+    <section id="api" class="panel">
+      <div class="panel-head">
+        <span class="panel-tag">[03]</span>
+        <h2>Clanker API notes</h2>
+        <span class="panel-meta">quirks we encode</span>
+      </div>
+      <pre class="ascii-wrap">• User-Agent required (ClankTape/0.1)
+• Do not pass limit= — use default page size (~10) + cursor=
+• sortBy that work: deployed-at · market-cap
+• Fee encodings differ by regime:
+    tax_v0  buyTaxRate/sellTaxRate in 1e-4 bps (1_000_000 = 100 bps = 1%)
+            split shares in 1e8 (100_000_000 = 100%)
+    v4_*    clankerFee/pairedFee (and baseFee/maxFee) in 1e-2 bps
+            (10_000 = 100 bps); recipients[].bps sum to 10_000
+• Trending token map keys may differ in checksum case → lowercase lookup
+• Source of truth for fields: live payloads, not assumed SDK shapes</pre>
+    </section>
+
+    <section id="host" class="panel">
+      <div class="panel-head">
+        <span class="panel-tag">[04]</span>
+        <h2>Hosting</h2>
+        <span class="panel-meta">Pages + Actions</span>
+      </div>
+      <pre class="ascii-wrap">GitHub Pages
+  source: Deploy from a branch → main / (root)
+  artifact: committed index.html + style.css + data/ + docs/
+
+GitHub Actions (when workflow scope is enabled)
+  trigger: cron '17 */6 * * *' + workflow_dispatch
+  steps:  checkout → python 3.12 → snapshot.py → commit data+index
+
+Until .github/workflows/daily-tape.yml is active, refresh manually:
+  python3 scripts/snapshot.py &amp;&amp; git add data index.html &amp;&amp; git commit &amp;&amp; git push</pre>
+    </section>
+
+    <section id="run" class="panel">
+      <div class="panel-head">
+        <span class="panel-tag">[05]</span>
+        <h2>Local run</h2>
+        <span class="panel-meta">reproduce a tape</span>
+      </div>
+      <pre class="ascii-wrap">git clone https://github.com/avalidurl/clank-tape.git
+cd clank-tape
+python3 scripts/snapshot.py
+# open index.html locally, or push and wait for Pages</pre>
+    </section>
+
+    <footer class="site-foot">
+      <pre class="ascii-wrap">independent analytics board · not affiliated with clanker · data from public api</pre>
+      <p><a href="../">← board</a> · <a href="https://github.com/avalidurl/clank-tape">repo</a></p>
+    </footer>
+  </div>
+</body>
+</html>

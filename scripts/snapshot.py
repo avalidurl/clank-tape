@@ -982,6 +982,8 @@ def render_html(snapshot: dict[str, Any]) -> str:
           <a href="#cohorts">[04] cohorts</a>
           <span class="sep">/</span>
           <a href="#roadmap">[05] roadmap</a>
+          <span class="sep">/</span>
+          <a href="docs/">[docs]</a>
         </nav>
         <div class="refresh-controls">
           <span id="refresh-note">static build · auto-updated via gh actions</span>

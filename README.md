@@ -12,6 +12,14 @@ Live board: **https://avalidurl.github.io/clank-tape/**
 4. **Launch Cohort Board (`v0 stub`)** — UTC hourly and 15-minute deploy histograms with `v4_lp` vs `tax_v0` split and active-volume survival counts.
 5. **Analytics Roadmap** — Current live vs stub vs next milestones.
 
+## Docs
+
+Stack & pipeline: **https://avalidurl.github.io/clank-tape/docs/**
+
+## Stack
+
+Static HTML/CSS terminal board · Python 3.12 stdlib snapshot · GitHub Pages + Actions. No npm, no framework.
+
 ## Architecture & Scheduled Refresh
 
 - `scripts/snapshot.py` — Pure Python 3 stdlib script (`urllib`, `json`, `html`) that queries public `clanker.world/api` endpoints (cursor-paginated, no external dependencies), writes `data/latest.json`, and bakes static `index.html`.
