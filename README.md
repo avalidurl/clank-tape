@@ -12,10 +12,10 @@ Live board: **https://avalidurl.github.io/clank-tape/**
 4. **Launch Cohort Board (`v0 stub`)** — UTC hourly and 15-minute deploy histograms with `v4_lp` vs `tax_v0` split and active-volume survival counts.
 5. **Analytics Roadmap** — Current live vs stub vs next milestones.
 
-## Architecture
+## Architecture & Scheduled Refresh
 
 - `scripts/snapshot.py` — Pure Python 3 stdlib script (`urllib`, `json`, `html`) that queries public `clanker.world/api` endpoints (cursor-paginated, no external dependencies), writes `data/latest.json`, and bakes static `index.html`.
 - `style.css` — Dark terminal CRT / ticker-tape stylesheet (`IBM Plex Mono`, green/amber on near-black).
-- `.github/workflows/daily-tape.yml` — Runs every 6 hours UTC (plus `workflow_dispatch`) to refresh `data/latest.json` and `index.html` on `main`.
+- `workflows/daily-tape.yml` — GitHub Actions workflow (runs every 6 hours UTC + `workflow_dispatch`) ready to move into `.github/workflows/daily-tape.yml` once pushed with a `workflow`-scoped GitHub token (`gh auth refresh -s workflow`).
 
 *Independent analytics board. Data sourced from public `clanker.world/api` endpoints; not affiliated with Clanker.*
